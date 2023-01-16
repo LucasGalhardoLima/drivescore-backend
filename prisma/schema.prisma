@@ -1,0 +1,51 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+  shadowDatabaseUrl = env("SHADOW_DATABASE_URL")
+}
+
+model Maker {
+  id        Int      @id @default(autoincrement())
+  name      String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  Models    Model[]
+}
+
+model Model {
+  id        Int      @id @default(autoincrement())
+  name      String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  maker     Maker?  @relation(fields: [makerId], references: [id])
+  makerId   Int?
+  Years     Year[]
+}
+
+model Year {
+  id        Int        @id @default(autoincrement())
+  year      Int
+  fuelType  String
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+  model     Model?    @relation(fields: [modelId], references: [id])
+  modelId   Int?
+  Versions  Version[]
+}
+
+model Version {
+  id        Int      @id @default(autoincrement())
+  name      String
+  image     String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  year      Year?   @relation(fields: [yearId], references: [id])
+  yearId    Int?
+}
