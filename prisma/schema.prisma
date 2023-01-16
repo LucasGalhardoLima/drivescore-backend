@@ -6,46 +6,60 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+  provider          = "postgresql"
+  url               = env("DATABASE_URL")
   shadowDatabaseUrl = env("SHADOW_DATABASE_URL")
 }
 
 model Maker {
   id        Int      @id @default(autoincrement())
   name      String
+  image     String?
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   Models    Model[]
 }
 
 model Model {
-  id        Int      @id @default(autoincrement())
+  id        Int       @id @default(autoincrement())
   name      String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  maker     Maker?  @relation(fields: [makerId], references: [id])
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  maker     Maker?    @relation(fields: [makerId], references: [id])
   makerId   Int?
   Years     Year[]
+  Version   Version[]
 }
 
 model Year {
-  id        Int        @id @default(autoincrement())
+  id        Int       @id @default(autoincrement())
   year      Int
   fuelType  String
-  createdAt DateTime   @default(now())
-  updatedAt DateTime   @updatedAt
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
   model     Model?    @relation(fields: [modelId], references: [id])
   modelId   Int?
   Versions  Version[]
 }
 
 model Version {
-  id        Int      @id @default(autoincrement())
-  name      String
-  image     String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  year      Year?   @relation(fields: [yearId], references: [id])
-  yearId    Int?
+  id           Int      @id @default(autoincrement())
+  name         String
+  image        String?
+  gearbox      String
+  bodywork     String
+  fuelType     String
+  traction     String
+  doors        Int
+  seats        Int
+  horsepower   String
+  motorization String?
+  emissions    String?
+  fuelEconomy  String?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  year         Year?    @relation(fields: [yearId], references: [id])
+  yearId       Int?
+  model        Model?   @relation(fields: [modelId], references: [id])
+  modelId      Int?
 }
