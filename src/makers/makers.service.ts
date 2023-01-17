@@ -13,7 +13,24 @@ export class MakersService {
   }
 
   findAll() {
-    return this.prisma.maker.findMany();
+    return this.prisma.$transaction(async (tx) => {
+      const count = await tx.maker.count();
+      const makers = await tx.maker.findMany({
+        take: 10,
+        // skip: 10,
+        orderBy: {
+          name: 'asc',
+        },
+      });
+
+      return {
+        count,
+        perPage: 10,
+        totalPages: Math.ceil(count / 10),
+        page: 0,
+        data: makers,
+      };
+    });
   }
 
   findOne(id: number) {

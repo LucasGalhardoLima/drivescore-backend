@@ -31,7 +31,7 @@ export class YearsController {
 
   @Get()
   @ApiCreatedResponse({ type: YearEntity, isArray: true })
-  async findAll(@Param('modelId') modelId: number) {
+  async findAll(@Param('modelId', ParseIntPipe) modelId: number) {
     const years = await this.yearsService.findAll(modelId);
 
     if (!years.length) {

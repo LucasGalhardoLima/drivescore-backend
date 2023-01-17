@@ -1,4 +1,16 @@
 -- CreateTable
+CREATE TABLE "User" (
+    "id" TEXT NOT NULL,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
+    "name" TEXT,
+    "email" TEXT NOT NULL,
+    "password" TEXT NOT NULL,
+
+    CONSTRAINT "User_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
 CREATE TABLE "Maker" (
     "id" SERIAL NOT NULL,
     "name" TEXT NOT NULL,
@@ -54,6 +66,15 @@ CREATE TABLE "Version" (
 
     CONSTRAINT "Version_pkey" PRIMARY KEY ("id")
 );
+
+-- CreateIndex
+CREATE UNIQUE INDEX "User_email_key" ON "User"("email");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "Maker_name_key" ON "Maker"("name");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "Version_name_key" ON "Version"("name");
 
 -- AddForeignKey
 ALTER TABLE "Model" ADD CONSTRAINT "Model_makerId_fkey" FOREIGN KEY ("makerId") REFERENCES "Maker"("id") ON DELETE SET NULL ON UPDATE CASCADE;
