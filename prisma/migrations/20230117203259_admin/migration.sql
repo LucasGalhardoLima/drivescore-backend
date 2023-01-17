@@ -6,13 +6,14 @@ CREATE TABLE "User" (
     "name" TEXT,
     "email" TEXT NOT NULL,
     "password" TEXT NOT NULL,
+    "admin" BOOLEAN NOT NULL DEFAULT false,
 
     CONSTRAINT "User_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
 CREATE TABLE "Maker" (
-    "id" SERIAL NOT NULL,
+    "id" TEXT NOT NULL,
     "name" TEXT NOT NULL,
     "image" TEXT,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -23,30 +24,30 @@ CREATE TABLE "Maker" (
 
 -- CreateTable
 CREATE TABLE "Model" (
-    "id" SERIAL NOT NULL,
+    "id" TEXT NOT NULL,
     "name" TEXT NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
-    "makerId" INTEGER,
+    "makerId" TEXT,
 
     CONSTRAINT "Model_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
 CREATE TABLE "Year" (
-    "id" SERIAL NOT NULL,
+    "id" TEXT NOT NULL,
     "year" INTEGER NOT NULL,
     "fuelType" TEXT NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
-    "modelId" INTEGER,
+    "modelId" TEXT,
 
     CONSTRAINT "Year_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
 CREATE TABLE "Version" (
-    "id" SERIAL NOT NULL,
+    "id" TEXT NOT NULL,
     "name" TEXT NOT NULL,
     "image" TEXT,
     "gearbox" TEXT NOT NULL,
@@ -61,8 +62,8 @@ CREATE TABLE "Version" (
     "fuelEconomy" TEXT,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
-    "yearId" INTEGER,
-    "modelId" INTEGER,
+    "yearId" TEXT,
+    "modelId" TEXT,
 
     CONSTRAINT "Version_pkey" PRIMARY KEY ("id")
 );

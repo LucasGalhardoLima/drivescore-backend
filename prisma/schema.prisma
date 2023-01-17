@@ -15,14 +15,14 @@ model User {
   id        String   @id @default(cuid())
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-
-  name     String?
-  email    String  @unique
-  password String
+  name      String?
+  email     String   @unique
+  password  String
+  admin     Boolean  @default(false)
 }
 
 model Maker {
-  id        Int      @id @default(autoincrement())
+  id        String   @id @default(cuid())
   name      String   @unique
   image     String?
   createdAt DateTime @default(now())
@@ -31,29 +31,29 @@ model Maker {
 }
 
 model Model {
-  id        Int       @id @default(autoincrement())
+  id        String    @id @default(cuid())
   name      String
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
   maker     Maker?    @relation(fields: [makerId], references: [id])
-  makerId   Int?
+  makerId   String?
   Years     Year[]
   Version   Version[]
 }
 
 model Year {
-  id        Int       @id @default(autoincrement())
+  id        String    @id @default(cuid())
   year      Int
   fuelType  String
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
   model     Model?    @relation(fields: [modelId], references: [id])
-  modelId   Int?
+  modelId   String?
   Versions  Version[]
 }
 
 model Version {
-  id           Int      @id @default(autoincrement())
+  id           String   @id @default(cuid())
   name         String   @unique
   image        String?
   gearbox      String
@@ -69,7 +69,7 @@ model Version {
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
   year         Year?    @relation(fields: [yearId], references: [id])
-  yearId       Int?
+  yearId       String?
   model        Model?   @relation(fields: [modelId], references: [id])
-  modelId      Int?
+  modelId      String?
 }

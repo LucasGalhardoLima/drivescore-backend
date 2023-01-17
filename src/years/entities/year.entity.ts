@@ -3,7 +3,7 @@ import { ApiProperty } from '@nestjs/swagger';
 
 export class YearEntity implements Year {
   @ApiProperty()
-  id: number;
+  id: string;
 
   @ApiProperty()
   year: number;
@@ -18,5 +18,5 @@ export class YearEntity implements Year {
   updatedAt: Date;
 
   @ApiProperty({ required: false, nullable: true })
-  modelId: number | null;
+  modelId: string | null;
 }

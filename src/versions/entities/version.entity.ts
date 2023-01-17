@@ -3,7 +3,7 @@ import { ApiProperty } from '@nestjs/swagger';
 
 export class VersionEntity implements Version {
   @ApiProperty()
-  id: number;
+  id: string;
 
   @ApiProperty()
   name: string;
@@ -48,8 +48,8 @@ export class VersionEntity implements Version {
   updatedAt: Date;
 
   @ApiProperty({ required: false, nullable: true })
-  yearId: number | null;
+  yearId: string | null;
 
   @ApiProperty({ required: false, nullable: true })
-  modelId: number | null;
+  modelId: string | null;
 }

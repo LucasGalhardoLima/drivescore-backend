@@ -1042,59 +1042,13 @@ const models = {
   Walk: ['Buggy Walk'],
 };
 
-const years = {
-  Integra: [
-    { year: 1991, fuelType: 'Gasolina' },
-    { year: 1992, fuelType: 'Gasolina' },
-  ],
-  Legend: [
-    { year: 1991, fuelType: 'Gasolina' },
-    { year: 1992, fuelType: 'Gasolina' },
-    { year: 1993, fuelType: 'Gasolina' },
-    { year: 1994, fuelType: 'Gasolina' },
-    { year: 1995, fuelType: 'Gasolina' },
-    { year: 1996, fuelType: 'Gasolina' },
-    { year: 1997, fuelType: 'Gasolina' },
-    { year: 1998, fuelType: 'Gasolina' },
-  ],
-  NSX: [
-    { year: 1991, fuelType: 'Gasolina' },
-    { year: 1992, fuelType: 'Gasolina' },
-    { year: 1993, fuelType: 'Gasolina' },
-    { year: 1994, fuelType: 'Gasolina' },
-    { year: 1995, fuelType: 'Gasolina' },
-  ],
-  Marrua: [
-    { year: 2004, fuelType: 'Diesel' },
-    { year: 2005, fuelType: 'Diesel' },
-    { year: 2006, fuelType: 'Diesel' },
-    { year: 2007, fuelType: 'Diesel' },
-    { year: 2008, fuelType: 'Diesel' },
-    { year: 2009, fuelType: 'Diesel' },
-    { year: 2010, fuelType: 'Diesel' },
-    { year: 2011, fuelType: 'Diesel' },
-    { year: 2012, fuelType: 'Diesel' },
-    { year: 2013, fuelType: 'Diesel' },
-    { year: 2014, fuelType: 'Diesel' },
-    { year: 2015, fuelType: 'Diesel' },
-    { year: 2016, fuelType: 'Diesel' },
-    { year: 2017, fuelType: 'Diesel' },
-    { year: 2018, fuelType: 'Diesel' },
-    { year: 2019, fuelType: 'Diesel' },
-    { year: 2020, fuelType: 'Diesel' },
-    { year: 2021, fuelType: 'Diesel' },
-    { year: 2022, fuelType: 'Diesel' },
-    { year: 2023, fuelType: 'Diesel' },
-  ],
-};
-
 async function main() {
   for (const maker of makers) {
-    await prisma.maker.create({
-      data: {
-        name: maker,
-      },
-    });
+    // await prisma.maker.create({
+    //   data: {
+    //     name: maker,
+    //   },
+    // });
 
     const makerSelected = await prisma.maker.findFirst({
       where: {
@@ -1103,34 +1057,13 @@ async function main() {
     });
 
     for (const model of models[makerSelected?.name]) {
+      console.log(models[makerSelected?.name], model)
       await prisma.model.create({
         data: {
           name: model,
           makerId: makerSelected?.id,
         },
       });
-
-      const modelSelected = await prisma.model.findFirst({
-        where: {
-          name: model,
-        },
-      });
-
-      // if (years[modelSelected?.name]?.length)
-      //   for (const year of years[modelSelected?.name]) {
-      //     //       console.log(year);
-      //     await prisma.year.create({
-      //       data: {
-      //         year: year.year,
-      //         fuelType: year.fuelType,
-      //         model: {
-      //           connect: {
-      //             id: modelSelected?.id,
-      //           },
-      //         },
-      //       },
-      //     });
-      //   }
     }
   }
 }

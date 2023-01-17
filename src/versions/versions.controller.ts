@@ -9,13 +9,15 @@ import {
   NotFoundException,
   ParseIntPipe,
   UseFilters,
+  UseGuards,
 } from '@nestjs/common';
 import { VersionsService } from './versions.service';
 import { CreateVersionDto } from './dto/create-version.dto';
 import { UpdateVersionDto } from './dto/update-version.dto';
-import { ApiTags, ApiCreatedResponse } from '@nestjs/swagger';
+import { ApiTags, ApiCreatedResponse, ApiBearerAuth } from '@nestjs/swagger';
 import { VersionEntity } from './entities/version.entity';
 import { PrismaClientExceptionFilter } from './../prisma-client-exception/prisma-client-exception.filter';
+import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 
 @Controller('versions')
 @ApiTags('versions')
@@ -24,6 +26,8 @@ export class VersionsController {
   constructor(private readonly versionsService: VersionsService) {}
 
   @Post()
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth()
   @ApiCreatedResponse({ type: VersionEntity })
   create(@Body() createVersionDto: CreateVersionDto) {
     return this.versionsService.create(createVersionDto);
@@ -32,8 +36,8 @@ export class VersionsController {
   @Get(':yearId/:modelId')
   @ApiCreatedResponse({ type: VersionEntity, isArray: true })
   async findAll(
-    @Param('yearId', ParseIntPipe) yearId: number,
-    @Param('modelId', ParseIntPipe) modelId: number,
+    @Param('yearId') yearId: string,
+    @Param('modelId') modelId: string,
   ) {
     const versions = await this.versionsService.findAll(yearId, modelId);
 
@@ -48,7 +52,7 @@ export class VersionsController {
 
   @Get(':id')
   @ApiCreatedResponse({ type: VersionEntity })
-  async findOne(@Param('id', ParseIntPipe) id: number) {
+  async findOne(@Param('id') id: string) {
     const version = await this.versionsService.findOne(id);
 
     if (!version) {
@@ -59,17 +63,18 @@ export class VersionsController {
   }
 
   @Patch(':id')
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth()
   @ApiCreatedResponse({ type: VersionEntity })
-  update(
-    @Param('id', ParseIntPipe) id: number,
-    @Body() updateVersionDto: UpdateVersionDto,
-  ) {
+  update(@Param('id') id: string, @Body() updateVersionDto: UpdateVersionDto) {
     return this.versionsService.update(id, updateVersionDto);
   }
 
   @Delete(':id')
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth()
   @ApiCreatedResponse({ type: VersionEntity })
-  remove(@Param('id', ParseIntPipe) id: number) {
+  remove(@Param('id') id: string) {
     return this.versionsService.remove(id);
   }
 }

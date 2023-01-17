@@ -18,8 +18,8 @@ export class CreateYearDto {
   @ApiProperty()
   fuelType: string;
 
-  @IsNumber()
+  @IsString()
   @IsOptional()
   @ApiProperty()
-  modelId?: number;
+  modelId?: string;
 }

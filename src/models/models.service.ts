@@ -16,7 +16,7 @@ export class ModelsService {
     return this.prisma.model.findMany();
   }
 
-  findByMaker(makerId: number) {
+  findByMaker(makerId: string) {
     return this.prisma.model.findMany({
       where: {
         makerId,
@@ -24,7 +24,7 @@ export class ModelsService {
     });
   }
 
-  findOne(id: number) {
+  findOne(id: string) {
     return this.prisma.model.findUnique({
       where: {
         id,
@@ -32,7 +32,7 @@ export class ModelsService {
     });
   }
 
-  update(id: number, updateModelDto: UpdateModelDto) {
+  update(id: string, updateModelDto: UpdateModelDto) {
     return this.prisma.model.update({
       where: {
         id,
@@ -41,7 +41,7 @@ export class ModelsService {
     });
   }
 
-  remove(id: number) {
+  remove(id: string) {
     return this.prisma.model.delete({
       where: {
         id,

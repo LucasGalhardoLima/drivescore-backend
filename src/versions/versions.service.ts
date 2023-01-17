@@ -12,7 +12,7 @@ export class VersionsService {
     });
   }
 
-  findAll(yearId: number, modelId: number) {
+  findAll(yearId: string, modelId: string) {
     return this.prisma.version.findMany({
       where: {
         yearId,
@@ -21,7 +21,7 @@ export class VersionsService {
     });
   }
 
-  findOne(id: number) {
+  findOne(id: string) {
     return this.prisma.version.findUnique({
       where: {
         id,
@@ -29,7 +29,7 @@ export class VersionsService {
     });
   }
 
-  update(id: number, updateVersionDto: UpdateVersionDto) {
+  update(id: string, updateVersionDto: UpdateVersionDto) {
     return this.prisma.version.update({
       where: {
         id,
@@ -38,7 +38,7 @@ export class VersionsService {
     });
   }
 
-  remove(id: number) {
+  remove(id: string) {
     return this.prisma.version.delete({
       where: {
         id,

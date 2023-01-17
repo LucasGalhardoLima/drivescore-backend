@@ -9,13 +9,15 @@ import {
   NotFoundException,
   ParseIntPipe,
   UseFilters,
+  UseGuards,
 } from '@nestjs/common';
 import { YearsService } from './years.service';
 import { CreateYearDto } from './dto/create-year.dto';
 import { UpdateYearDto } from './dto/update-year.dto';
-import { ApiTags, ApiCreatedResponse } from '@nestjs/swagger';
+import { ApiTags, ApiCreatedResponse, ApiBearerAuth } from '@nestjs/swagger';
 import { YearEntity } from './entities/year.entity';
 import { PrismaClientExceptionFilter } from './../prisma-client-exception/prisma-client-exception.filter';
+import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 
 @Controller('years')
 @ApiTags('years')
@@ -24,6 +26,8 @@ export class YearsController {
   constructor(private readonly yearsService: YearsService) {}
 
   @Post()
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth()
   @ApiCreatedResponse({ type: YearEntity })
   create(@Body() createYearDto: CreateYearDto) {
     return this.yearsService.create(createYearDto);
@@ -31,7 +35,7 @@ export class YearsController {
 
   @Get()
   @ApiCreatedResponse({ type: YearEntity, isArray: true })
-  async findAll(@Param('modelId', ParseIntPipe) modelId: number) {
+  async findAll(@Param('modelId') modelId: string) {
     const years = await this.yearsService.findAll(modelId);
 
     if (!years.length) {
@@ -43,22 +47,29 @@ export class YearsController {
 
   @Get(':id')
   @ApiCreatedResponse({ type: YearEntity })
-  findOne(@Param('id', ParseIntPipe) id: number) {
+  findOne(@Param('id') id: string) {
+    const year = this.yearsService.findOne(id);
+
+    if (!year) {
+      throw new NotFoundException(`Year with id: ${id} not found`);
+    }
+
     return this.yearsService.findOne(id);
   }
 
   @Patch(':id')
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth()
   @ApiCreatedResponse({ type: YearEntity })
-  update(
-    @Param('id', ParseIntPipe) id: number,
-    @Body() updateYearDto: UpdateYearDto,
-  ) {
+  update(@Param('id') id: string, @Body() updateYearDto: UpdateYearDto) {
     return this.yearsService.update(id, updateYearDto);
   }
 
   @Delete(':id')
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth()
   @ApiCreatedResponse({ type: YearEntity })
-  remove(@Param('id', ParseIntPipe) id: number) {
+  remove(@Param('id') id: string) {
     return this.yearsService.remove(id);
   }
 }

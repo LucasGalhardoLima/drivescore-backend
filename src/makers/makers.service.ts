@@ -33,7 +33,7 @@ export class MakersService {
     });
   }
 
-  findOne(id: number) {
+  findOne(id: string) {
     return this.prisma.maker.findUnique({
       where: {
         id,
@@ -41,7 +41,7 @@ export class MakersService {
     });
   }
 
-  update(id: number, updateMakerDto: UpdateMakerDto) {
+  update(id: string, updateMakerDto: UpdateMakerDto) {
     return this.prisma.maker.update({
       where: {
         id,
@@ -50,7 +50,7 @@ export class MakersService {
     });
   }
 
-  remove(id: number) {
+  remove(id: string) {
     return this.prisma.maker.delete({
       where: {
         id,

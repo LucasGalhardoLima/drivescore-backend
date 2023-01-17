@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsString, MinLength, IsOptional, IsNumber } from 'class-validator';
+import { IsString, MinLength, IsOptional } from 'class-validator';
 
 export class CreateModelDto {
   @IsString()
@@ -13,7 +13,7 @@ export class CreateModelDto {
   image?: string;
 
   @IsOptional()
-  @IsNumber()
+  @IsString()
   @ApiProperty()
-  makerId?: number;
+  makerId?: string;
 }

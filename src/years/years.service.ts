@@ -12,7 +12,7 @@ export class YearsService {
     });
   }
 
-  findAll(modelId: number) {
+  findAll(modelId: string) {
     return this.prisma.year.findMany({
       where: {
         modelId,
@@ -20,7 +20,7 @@ export class YearsService {
     });
   }
 
-  findOne(id: number) {
+  findOne(id: string) {
     return this.prisma.year.findUnique({
       where: {
         id,
@@ -28,7 +28,7 @@ export class YearsService {
     });
   }
 
-  update(id: number, updateYearDto: UpdateYearDto) {
+  update(id: string, updateYearDto: UpdateYearDto) {
     return this.prisma.year.update({
       where: {
         id,
@@ -37,7 +37,7 @@ export class YearsService {
     });
   }
 
-  remove(id: number) {
+  remove(id: string) {
     return this.prisma.year.delete({
       where: {
         id,

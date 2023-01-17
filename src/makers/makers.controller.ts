@@ -7,15 +7,16 @@ import {
   Param,
   Delete,
   NotFoundException,
-  ParseIntPipe,
   UseFilters,
+  UseGuards,
 } from '@nestjs/common';
 import { MakersService } from './makers.service';
 import { CreateMakerDto } from './dto/create-maker.dto';
 import { UpdateMakerDto } from './dto/update-maker.dto';
-import { ApiCreatedResponse, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiCreatedResponse, ApiTags } from '@nestjs/swagger';
 import { MakerEntity } from './entities/maker.entity';
 import { PrismaClientExceptionFilter } from './../prisma-client-exception/prisma-client-exception.filter';
+import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 
 @Controller('makers')
 @ApiTags('makers')
@@ -24,6 +25,8 @@ export class MakersController {
   constructor(private readonly makersService: MakersService) {}
 
   @Post()
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth()
   @ApiCreatedResponse({ type: MakerEntity })
   create(@Body() createMakerDto: CreateMakerDto) {
     return this.makersService.create(createMakerDto);
@@ -37,7 +40,7 @@ export class MakersController {
 
   @Get(':id')
   @ApiCreatedResponse({ type: MakerEntity })
-  async findOne(@Param('id', ParseIntPipe) id: number) {
+  async findOne(@Param('id') id: string) {
     const maker = await this.makersService.findOne(id);
 
     if (!maker) {
@@ -48,17 +51,18 @@ export class MakersController {
   }
 
   @Patch(':id')
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth()
   @ApiCreatedResponse({ type: MakerEntity })
-  update(
-    @Param('id', ParseIntPipe) id: number,
-    @Body() updateMakerDto: UpdateMakerDto,
-  ) {
+  update(@Param('id') id: string, @Body() updateMakerDto: UpdateMakerDto) {
     return this.makersService.update(id, updateMakerDto);
   }
 
   @Delete(':id')
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth()
   @ApiCreatedResponse({ type: MakerEntity })
-  remove(@Param('id', ParseIntPipe) id: number) {
+  remove(@Param('id') id: string) {
     return this.makersService.remove(id);
   }
 }

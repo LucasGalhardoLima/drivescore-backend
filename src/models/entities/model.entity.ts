@@ -3,13 +3,13 @@ import { ApiProperty } from '@nestjs/swagger';
 
 export class ModelEntity implements Model {
   @ApiProperty()
-  id: number;
+  id: string;
 
   @ApiProperty()
   name: string;
 
   @ApiProperty({ required: false, nullable: true })
-  makerId: number | null;
+  makerId: string | null;
 
   @ApiProperty()
   createdAt: Date;

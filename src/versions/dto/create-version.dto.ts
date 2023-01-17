@@ -73,13 +73,13 @@ export class CreateVersionDto {
   @ApiProperty()
   fuelEconomy?: string;
 
-  @IsNumber()
+  @IsString()
   @IsOptional()
   @ApiProperty()
-  modelId?: number;
+  modelId?: string;
 
-  @IsNumber()
+  @IsString()
   @IsOptional()
   @ApiProperty()
-  yearId?: number;
+  yearId?: string;
 }
