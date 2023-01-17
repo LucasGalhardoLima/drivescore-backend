@@ -3,13 +3,13 @@ import {
   IsNumber,
   IsOptional,
   IsString,
-  MaxLength,
+  Max,
   MinLength,
 } from 'class-validator';
 
 export class CreateYearDto {
   @IsNumber()
-  @MaxLength(4)
+  @Max(9999)
   @ApiProperty()
   year: number;
 

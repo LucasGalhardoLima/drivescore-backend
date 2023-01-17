@@ -4,6 +4,7 @@ import {
   IsOptional,
   IsString,
   MaxLength,
+  Min,
   MinLength,
 } from 'class-validator';
 
@@ -40,34 +41,34 @@ export class CreateVersionDto {
   traction: string;
 
   @IsNumber()
-  @MinLength(1)
+  @Min(1)
   @ApiProperty()
   doors: number;
 
   @IsNumber()
-  @MinLength(1)
+  @Min(1)
   @ApiProperty()
   seats: number;
 
   @IsString()
-  @MaxLength(3)
+  @MinLength(3)
   @ApiProperty()
   horsepower: string;
 
   @IsString()
-  @MaxLength(3)
+  @MinLength(3)
   @IsOptional()
   @ApiProperty()
   motorization?: string;
 
   @IsString()
-  @MaxLength(3)
+  @MinLength(3)
   @IsOptional()
   @ApiProperty()
   emissions?: string;
 
   @IsString()
-  @MaxLength(3)
+  @MinLength(3)
   @IsOptional()
   @ApiProperty()
   fuelEconomy?: string;

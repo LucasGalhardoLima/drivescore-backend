@@ -7,15 +7,19 @@ import {
   Param,
   Delete,
   NotFoundException,
+  ParseIntPipe,
+  UseFilters,
 } from '@nestjs/common';
 import { YearsService } from './years.service';
 import { CreateYearDto } from './dto/create-year.dto';
 import { UpdateYearDto } from './dto/update-year.dto';
 import { ApiTags, ApiCreatedResponse } from '@nestjs/swagger';
 import { YearEntity } from './entities/year.entity';
+import { PrismaClientExceptionFilter } from './../prisma-client-exception/prisma-client-exception.filter';
 
 @Controller('years')
 @ApiTags('years')
+@UseFilters(PrismaClientExceptionFilter)
 export class YearsController {
   constructor(private readonly yearsService: YearsService) {}
 
@@ -39,19 +43,22 @@ export class YearsController {
 
   @Get(':id')
   @ApiCreatedResponse({ type: YearEntity })
-  findOne(@Param('id') id: string) {
-    return this.yearsService.findOne(+id);
+  findOne(@Param('id', ParseIntPipe) id: number) {
+    return this.yearsService.findOne(id);
   }
 
   @Patch(':id')
   @ApiCreatedResponse({ type: YearEntity })
-  update(@Param('id') id: string, @Body() updateYearDto: UpdateYearDto) {
-    return this.yearsService.update(+id, updateYearDto);
+  update(
+    @Param('id', ParseIntPipe) id: number,
+    @Body() updateYearDto: UpdateYearDto,
+  ) {
+    return this.yearsService.update(id, updateYearDto);
   }
 
   @Delete(':id')
   @ApiCreatedResponse({ type: YearEntity })
-  remove(@Param('id') id: string) {
-    return this.yearsService.remove(+id);
+  remove(@Param('id', ParseIntPipe) id: number) {
+    return this.yearsService.remove(id);
   }
 }

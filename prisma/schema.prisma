@@ -13,7 +13,7 @@ datasource db {
 
 model Maker {
   id        Int      @id @default(autoincrement())
-  name      String
+  name      String   @unique
   image     String?
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -44,7 +44,7 @@ model Year {
 
 model Version {
   id           Int      @id @default(autoincrement())
-  name         String
+  name         String   @unique
   image        String?
   gearbox      String
   bodywork     String
